@@ -11,11 +11,21 @@ app.use(express.json());
 app.use(require('cookie-parser')());
 
 const connectDB = require("./config/database");
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/product');
+const cartRoutes = require('./routes/cart');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/product', productRoutes);
+app.use('/api/cart', cartRoutes);
 
 app.get("/", (req, res) => res.json({ message: "Hello from ecommerce backend" }));
 
 connectDB()
   .then(async () => {
+    // optional: seed on server start (comment if you prefer manual)
+    // const seed = require('./utils/seedFakeStore');
+    // await seed(); // if implemented to export function
     app.listen(PORT, () => {
       console.log(`Server start http://localhost:${PORT}`);
     });
