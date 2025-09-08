@@ -102,8 +102,18 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
-      dispatch({ type: "ADD_ITEM", payload: product });
-      await api.post("/cart", { productId: product.id, quantity: 1 }); // <--- fixed route
+      // Ensure we always have full product details
+      const payload = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      };
+
+      dispatch({ type: "ADD_ITEM", payload });
+      await api.post("/cart", payload);
+
       toast.success("Item added to cart!");
     } catch (error) {
       console.error("Failed to add item:", error);

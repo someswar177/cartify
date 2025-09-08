@@ -1,24 +1,20 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useCart } from '../contexts/CartContext'
-import toast from 'react-hot-toast'
 
 const ProductCard = ({ product }) => {
   const { user } = useAuth()
   const { addToCart } = useCart()
 
   const handleAddToCart = async (e) => {
-    if (!user) {   // ✅ auth check
-      toast.error('Please login to add items to cart')
+    if (!user) {
       navigate('/login')
       return
     }
     try {
       await addToCart(product)
-      toast.success('Item added to cart')
     } catch (err) {
       console.error(err)
-      toast.error('Failed to add item to cart')
     }
   }
 

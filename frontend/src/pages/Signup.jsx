@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import toast from 'react-hot-toast';
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' })
@@ -35,7 +36,10 @@ const Signup = () => {
       email: formData.email,
       password: formData.password,
     });
-    if (success) navigate('/');
+    if (success) {
+      toast.success("Account created! Please sign in with your credentials.");
+      navigate('/login');
+    }
   };
 
 

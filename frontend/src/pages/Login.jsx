@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -21,6 +22,7 @@ const Login = () => {
     e.preventDefault();
     const success = await login({ email: formData.email, password: formData.password });
     if (success) {
+      toast.success("Logged in!");
       navigate(from, { replace: true });
     }
   };

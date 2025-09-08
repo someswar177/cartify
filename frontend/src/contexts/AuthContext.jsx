@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import api from "../utils/api";
+import toast from "react-hot-toast";   // ✅ import toast
 
 const AuthContext = createContext();
 
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Signup failed");
+      toast.error(err.response?.data?.message || "Signup failed");  // ✅ toast
       return false;
     }
   };
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Login failed");
+      toast.error(err.response?.data?.message || "Login failed");   // ✅ toast
       return false;
     }
   };

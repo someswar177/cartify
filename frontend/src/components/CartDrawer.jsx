@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 const CartDrawer = ({ isOpen, onClose }) => {
     const { items, updateQuantity, removeFromCart, getCartTotal } = useCart();
     const { user } = useAuth();
+    console.log(items);
 
     const isAuthenticated = !!user;
 

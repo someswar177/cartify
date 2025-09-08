@@ -4,7 +4,6 @@ import { fakeStoreApi } from '../utils/api'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
 import { ProductDetailSkeleton } from '../components/Skeleton'
-import toast from 'react-hot-toast'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -20,16 +19,13 @@ const ProductDetail = () => {
 
   const handleAddToCart = async () => {
     if (!user) {   // ✅ auth check
-      toast.error('Please login to add items to cart')
       navigate('/login')
       return
     }
     try {
       await addToCart(product)
-      toast.success('Item added to cart')
     } catch (err) {
       console.error(err)
-      toast.error('Failed to add item to cart')
     }
   }
 
