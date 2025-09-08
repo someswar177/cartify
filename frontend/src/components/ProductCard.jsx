@@ -7,16 +7,6 @@ const ProductCard = ({ product }) => {
   const { user } = useAuth()
   const { addToCart } = useCart()
 
-  // const handleAddToCart = (e) => {
-  //   e.preventDefault()
-  //   if (!isAuthenticated) {
-  //     toast.error('Please login to add items to cart')
-  //     return
-  //   }
-  //   // Cart feature not included in this project
-  //   toast('Cart feature is not available in this project')
-  // }
-
   const handleAddToCart = async (e) => {
     if (!user) {   // ✅ auth check
       toast.error('Please login to add items to cart')
@@ -47,9 +37,21 @@ const ProductCard = ({ product }) => {
 
     if (hasHalfStar) {
       stars.push(
-        <svg key="half" className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
-          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0v15z" />
+        <svg
+          key="half"
+          className="w-4 h-4"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+            className="fill-gray-300"
+          />
+          <path
+            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0v15z"
+            className="fill-yellow-400"
+          />
         </svg>
+
       )
     }
 
@@ -107,7 +109,17 @@ const ProductCard = ({ product }) => {
             }}
             className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95"
           >
-            Add to Cart
+            {/* Add to Cart */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m13-9l2 9m-5-9v9" />
+            </svg>
+            {/* + Add */}
           </button>
         </div>
       </div>

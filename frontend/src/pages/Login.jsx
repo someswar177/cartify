@@ -29,8 +29,8 @@ const Login = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 animate-fade-in">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">E</span>
+          <div className="w-22 h-22 bg-gradient-to-r from-blue-500 to-purple-800 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-white font-bold text-2xl">Cartify</span>
           </div>
           <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
             Sign in to your account
