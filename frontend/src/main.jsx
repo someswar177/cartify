@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AuthProvider } from './contexts/AuthContext'
-import { CartProvider } from './contexts/CartContext'   // import CartProvider
+import { CartProvider } from './contexts/CartContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 
@@ -13,7 +13,7 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000,
     },
   },
 })
@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <CartProvider>   {/* ✅ wrap your app with CartProvider */}
+          <CartProvider>
             <App />
           </CartProvider>
         </AuthProvider>

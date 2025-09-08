@@ -90,7 +90,6 @@ const CartPage = ({ isDark }) => {
     }`}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="animate-fade-in">
-          {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <h1 className={`text-3xl font-bold ${
               isDark ? 'text-white' : 'text-gray-900'
@@ -106,7 +105,6 @@ const CartPage = ({ isDark }) => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {items.map((item) => (
                 <div 
@@ -118,7 +116,6 @@ const CartPage = ({ isDark }) => {
                   }`}
                 >
                   <div className="flex items-start space-x-4">
-                    {/* Product Image */}
                     <div className="flex-shrink-0 w-24 h-24 bg-white rounded-lg p-2 border border-gray-200">
                       <img
                         src={item.image}
@@ -128,7 +125,6 @@ const CartPage = ({ isDark }) => {
                       />
                     </div>
 
-                    {/* Product Info */}
                     <div className="flex-1 min-w-0">
                       <Link 
                         to={`/product/${item.id}`}
@@ -152,7 +148,6 @@ const CartPage = ({ isDark }) => {
                           ${item.price.toFixed(2)}
                         </span>
                         
-                        {/* Quantity Controls */}
                         <div className="flex items-center space-x-3">
                           <button
                             onClick={() => decrementItem(item.id)}
@@ -188,7 +183,6 @@ const CartPage = ({ isDark }) => {
                         </div>
                       </div>
                       
-                      {/* Subtotal and Remove */}
                       <div className={`flex items-center justify-between mt-4 pt-4 border-t ${
                         isDark ? 'border-gray-700' : 'border-gray-200'
                       }`}>
@@ -213,7 +207,6 @@ const CartPage = ({ isDark }) => {
               ))}
             </div>
 
-            {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className={`rounded-xl shadow-md p-6 border sticky top-24 ${
                 isDark 
@@ -271,7 +264,6 @@ const CartPage = ({ isDark }) => {
                   Continue Shopping
                 </Link>
 
-                {/* Security badges */}
                 <div className={`mt-6 pt-6 border-t ${
                   isDark ? 'border-gray-700' : 'border-gray-200'
                 }`}>

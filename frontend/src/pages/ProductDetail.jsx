@@ -103,7 +103,6 @@ const ProductDetail = ({ isDark }) => {
       isDark ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb */}
         <nav className="mb-8">
           <button
             onClick={() => navigate(-1)}
@@ -124,7 +123,6 @@ const ProductDetail = ({ isDark }) => {
           isDark ? 'bg-gray-800' : 'bg-white'
         }`}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
-            {/* Product Image */}
             <div className="aspect-square bg-white rounded-lg p-8 flex items-center justify-center">
               <img
                 src={product.image}
@@ -134,7 +132,6 @@ const ProductDetail = ({ isDark }) => {
               />
             </div>
 
-            {/* Product Info */}
             <div className="space-y-6">
               <div>
                 <p className={`text-sm uppercase tracking-wide font-medium mb-2 ${
@@ -149,7 +146,6 @@ const ProductDetail = ({ isDark }) => {
                 </h1>
               </div>
 
-              {/* Rating */}
               <div className="flex items-center space-x-2">
                 <div className="flex items-center space-x-1">
                   {renderStars(product.rating?.rate || 0)}
@@ -159,14 +155,12 @@ const ProductDetail = ({ isDark }) => {
                 </span>
               </div>
 
-              {/* Price */}
               <div className={`text-4xl font-bold ${
                 isDark ? 'text-blue-400' : 'text-blue-600'
               }`}>
                 ${product.price.toFixed(2)}
               </div>
 
-              {/* Description */}
               <div>
                 <h3 className={`text-lg font-semibold mb-3 ${
                   isDark ? 'text-white' : 'text-gray-900'
@@ -180,7 +174,6 @@ const ProductDetail = ({ isDark }) => {
                 </p>
               </div>
 
-              {/* Add to Cart Button */}
               <div className="pt-6">
                 <button
                   onClick={handleAddToCart}
@@ -190,7 +183,6 @@ const ProductDetail = ({ isDark }) => {
                 </button>
               </div>
 
-              {/* Product Features */}
               <div className={`grid grid-cols-2 gap-4 pt-6 border-t ${
                 isDark ? 'border-gray-700' : 'border-gray-200'
               }`}>

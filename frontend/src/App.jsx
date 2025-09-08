@@ -12,7 +12,6 @@ import { Toaster } from 'react-hot-toast'
 export default function App() {
   const [isDark, setIsDark] = useState(false)
 
-  // Initialize theme on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -23,7 +22,6 @@ export default function App() {
     updateDocumentClass(shouldBeDark)
   }, [])
 
-  // Helper function to update document class
   const updateDocumentClass = (dark) => {
     if (dark) {
       document.documentElement.classList.add('dark')
@@ -32,7 +30,6 @@ export default function App() {
     }
   }
 
-  // Toggle theme function
   const toggleTheme = () => {
     const newTheme = !isDark
     setIsDark(newTheme)
@@ -46,7 +43,6 @@ export default function App() {
         isDark ? 'bg-gray-900' : 'bg-gray-50'
       }`}>
         <Routes>
-          {/* All main pages inside Layout */}
           <Route element={<Layout isDark={isDark} onToggleTheme={toggleTheme} />}>
             <Route
               path="/"
@@ -67,7 +63,6 @@ export default function App() {
             />
           </Route>
 
-          {/* Auth routes outside Layout */}
           <Route path="/login" element={<Login isDark={isDark} />} />
           <Route path="/signup" element={<Signup isDark={isDark} />} />
         </Routes>

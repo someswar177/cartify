@@ -5,7 +5,6 @@ import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
-// Reducer for cart actions
 const cartReducer = (state, action) => {
   switch (action.type) {
     case "SET_LOADING":
@@ -69,7 +68,6 @@ export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { user } = useAuth();
 
-  // Load cart from backend when user logs in
   useEffect(() => {
     if (user) {
       loadCart();
@@ -78,15 +76,13 @@ export const CartProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Fetch cart from backend
   const loadCart = async () => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const response = await api.get("/cart");
-      // Normalize productId -> id
       const normalized = (response.data.items || []).map((item) => ({
         ...item,
-        id: item.productId || item.id, // ensure id exists
+        id: item.productId || item.id,
       }));
       dispatch({ type: "SET_CART_ITEMS", payload: normalized });
     } catch (error) {
@@ -95,14 +91,12 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Add product to cart
   const addToCart = async (product) => {
     if (!user) {
       toast.error("Please login to add items to cart");
       return;
     }
     try {
-      // Ensure we always have full product details
       const payload = {
         id: product.id,
         title: product.title,
@@ -122,11 +116,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Update quantity
   const updateQuantity = async (productId, quantity) => {
     try {
       dispatch({ type: "UPDATE_QUANTITY", payload: { id: productId, quantity } });
-      await api.put("/cart", { productId, quantity }); // <--- fixed route
+      await api.put("/cart", { productId, quantity });
     } catch (error) {
       console.error("Failed to update quantity:", error);
       toast.error("Failed to update quantity");
@@ -134,11 +127,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Remove product
   const removeFromCart = async (productId) => {
     try {
       dispatch({ type: "REMOVE_ITEM", payload: productId });
-      await api.delete(`/cart/${productId}`); // <--- fixed route
+      await api.delete(`/cart/${productId}`);
       toast.success("Item removed from cart");
     } catch (error) {
       console.error("Failed to remove item:", error);
@@ -147,7 +139,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Increment
   const incrementItem = async (productId) => {
     const item = state.items.find((item) => item.id === productId);
     if (item) {
@@ -155,7 +146,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Decrement (remove if qty=1)
   const decrementItem = async (productId) => {
     const item = state.items.find((item) => item.id === productId);
     if (item && item.quantity > 1) {
@@ -165,7 +155,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Clear cart
   const clearCart = async () => {
     try {
       dispatch({ type: "CLEAR_CART" });
@@ -178,7 +167,6 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Helpers
   const getCartTotal = () =>
     state.items.reduce((total, item) => total + (item.price || 0) * (item.quantity || 0), 0);
 

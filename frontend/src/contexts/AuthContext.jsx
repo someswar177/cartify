@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import api from "../utils/api";
-import toast from "react-hot-toast";   // ✅ import toast
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load user from localStorage on initial render
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -17,7 +16,6 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Signup API
   const signup = async ({ name, email, password }) => {
     try {
       const res = await api.post("/auth/signup", { name, email, password });
@@ -27,12 +25,11 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Signup failed");  // ✅ toast
+      toast.error(err.response?.data?.message || "Signup failed");
       return false;
     }
   };
 
-  // Login API
   const login = async ({ email, password }) => {
     try {
       const res = await api.post("/auth/login", { email, password });
@@ -42,12 +39,11 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Login failed");   // ✅ toast
+      toast.error(err.response?.data?.message || "Login failed");
       return false;
     }
   };
 
-  // Logout
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

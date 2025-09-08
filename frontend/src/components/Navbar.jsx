@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
@@ -34,7 +33,6 @@ const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <Link
             to="/"
             className={`flex items-center space-x-2 font-bold text-xl transition-colors duration-200 ${
@@ -48,7 +46,6 @@ const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
             </div>
           </Link>
 
-          {/* Desktop Search */}
           <form
             onSubmit={handleSearch}
             className="hidden md:flex items-center max-w-md w-full mx-8"
@@ -90,9 +87,7 @@ const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
             </div>
           </form>
 
-          {/* Right side actions */}
           <div className="flex items-center space-x-4">
-            {/* Mobile search toggle */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className={`md:hidden transition-colors duration-200 ${
@@ -116,10 +111,8 @@ const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
               </svg>
             </button>
 
-            {/* Theme toggle */}
             <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
 
-            {/* Cart button */}
             {user && (
               <button
                 onClick={onCartClick}
@@ -150,7 +143,6 @@ const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
               </button>
             )}
 
-            {/* Auth buttons */}
             {user ? (
               <div className="flex items-center space-x-3">
                 <span className={`hidden sm:block text-sm ${
@@ -188,7 +180,6 @@ const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
           </div>
         </div>
 
-        {/* Mobile search */}
         {isSearchOpen && (
           <div className={`md:hidden py-3 border-t animate-slide-in-left ${
             isDark ? 'border-gray-700' : 'border-gray-200'

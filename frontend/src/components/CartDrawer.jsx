@@ -1,4 +1,3 @@
-// src/components/CartDrawer.jsx
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
@@ -15,16 +14,13 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
     return (
         <Fragment>
-            {/* Backdrop */}
             <div
                 className="fixed inset-0 bg-opacity-50 z-50 transition-opacity duration-300"
                 onClick={onClose}
             />
 
-            {/* Drawer */}
             <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white dark:bg-gray-800 z-50 shadow-xl transform transition-transform duration-300 animate-slide-in-right">
                 <div className="flex flex-col h-full">
-                    {/* Header */}
                     <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                             Shopping Cart
@@ -49,7 +45,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
                         </button>
                     </div>
 
-                    {/* Body */}
                     {!isAuthenticated ? (
                         <div className="flex-1 flex items-center justify-center p-4">
                             <div className="text-center">
@@ -111,7 +106,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
                         </div>
                     ) : (
                         <Fragment>
-                            {/* Cart Items */}
                             <div className="flex-1 overflow-y-auto p-4 space-y-4">
                                 {items.map((item) => (
                                     <div
@@ -197,7 +191,6 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                 ))}
                             </div>
 
-                            {/* Footer */}
                             <div className="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4">
                                 <div className="flex justify-between items-center">
                                     <span className="text-lg font-semibold text-gray-900 dark:text-white">

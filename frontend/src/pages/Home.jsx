@@ -19,7 +19,6 @@ const Home = ({ isDark }) => {
   const searchTerm = searchParams.get('search') || ''
   const debouncedSearch = useDebounce(searchTerm, 300)
 
-  // Fetch products
   const { data: products = [], isLoading, error } = useQuery({
     queryKey: ['products', filters.category],
     queryFn: () => {
@@ -30,13 +29,11 @@ const Home = ({ isDark }) => {
     }
   })
 
-  // Filter and sort products
   const filteredProducts = useMemo(() => {
     if (!products.length) return []
 
     let filtered = [...products]
 
-    // Apply search filter
     if (debouncedSearch) {
       filtered = filtered.filter(product =>
         product.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
@@ -44,12 +41,10 @@ const Home = ({ isDark }) => {
       )
     }
 
-    // Apply price filter
     filtered = filtered.filter(product =>
       product.price >= filters.priceRange.min && product.price <= filters.priceRange.max
     )
 
-    // Apply sorting
     switch (filters.sortBy) {
       case 'price-low':
         filtered.sort((a, b) => a.price - b.price)
@@ -73,7 +68,6 @@ const Home = ({ isDark }) => {
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters)
     
-    // Update URL params
     const params = new URLSearchParams(searchParams)
     if (newFilters.category) {
       params.set('category', newFilters.category)
@@ -120,7 +114,6 @@ const Home = ({ isDark }) => {
       isDark ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -136,7 +129,6 @@ const Home = ({ isDark }) => {
               </p>
             </div>
             
-            {/* Mobile filter button */}
             <button
               onClick={() => setIsMobileFilterOpen(true)}
               className={`lg:hidden px-4 py-2 rounded-lg border transition-colors duration-200 flex items-center space-x-2 ${
@@ -154,7 +146,6 @@ const Home = ({ isDark }) => {
         </div>
 
         <div className="flex gap-8">
-          {/* Desktop Sidebar */}
           <div className="hidden lg:block">
             <FilterSidebar
               isDark={isDark}
@@ -163,7 +154,6 @@ const Home = ({ isDark }) => {
             />
           </div>
 
-          {/* Mobile Filter Drawer */}
           <FilterSidebar
             isDark={isDark}
             isOpen={isMobileFilterOpen}
@@ -173,7 +163,6 @@ const Home = ({ isDark }) => {
             isMobile={true}
           />
 
-          {/* Products Grid */}
           <div className="flex-1">
             {isLoading ? (
               <ProductGridSkeleton isDark={isDark} />

@@ -17,7 +17,6 @@ api.interceptors.request.use((config) => {
 
 export default api;
 
-// Separate instance for FakeStore API
 export const fakeStoreApi = axios.create({
   baseURL: 'https://fakestoreapi.com',
   headers: {

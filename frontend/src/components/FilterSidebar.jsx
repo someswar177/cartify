@@ -12,7 +12,6 @@ const FilterSidebar = ({
 }) => {
   const [localFilters, setLocalFilters] = useState(filters)
   
-  // Fetch categories
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: () => fakeStoreApi.get('/products/categories').then(res => res.data)
@@ -49,7 +48,6 @@ const FilterSidebar = ({
 
   const sidebarContent = (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className={`text-lg font-semibold ${
           isDark ? 'text-white' : 'text-gray-900'
@@ -72,7 +70,6 @@ const FilterSidebar = ({
         )}
       </div>
 
-      {/* Clear Filters */}
       <button
         onClick={clearFilters}
         className={`text-sm hover:underline ${
@@ -82,7 +79,6 @@ const FilterSidebar = ({
         Clear all filters
       </button>
 
-      {/* Categories */}
       <div>
         <h4 className={`font-medium mb-3 ${
           isDark ? 'text-white' : 'text-gray-900'
@@ -121,7 +117,6 @@ const FilterSidebar = ({
         </div>
       </div>
 
-      {/* Price Range */}
       <div>
         <h4 className={`font-medium mb-3 ${
           isDark ? 'text-white' : 'text-gray-900'
@@ -160,7 +155,6 @@ const FilterSidebar = ({
         </div>
       </div>
 
-      {/* Sort By */}
       <div>
         <h4 className={`font-medium mb-3 ${
           isDark ? 'text-white' : 'text-gray-900'
@@ -189,13 +183,11 @@ const FilterSidebar = ({
     
     return (
       <>
-        {/* Backdrop */}
         <div 
           className="fixed inset-0 bg-opacity-50 z-40"
           onClick={onClose}
         />
         
-        {/* Mobile drawer */}
         <div className={`fixed inset-y-0 left-0 z-50 w-64 shadow-xl transform transition-transform duration-300 animate-slide-in-left overflow-y-auto ${
           isDark ? 'bg-gray-800' : 'bg-white'
         }`}>
@@ -207,7 +199,6 @@ const FilterSidebar = ({
     )
   }
 
-  // Desktop sidebar
   return (
     <div className={`w-64 rounded-lg shadow-md p-6 h-fit sticky top-20 ${
       isDark ? 'bg-gray-800' : 'bg-white'
