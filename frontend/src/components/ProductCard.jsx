@@ -116,6 +116,9 @@ const ProductCard = ({ product }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m13-9l2 9m-5-9v9" />
             </svg>
             {/* + Add */}
+            <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-black rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              Add to Cart
+            </span>
           </button>
         </div>
       </div>
