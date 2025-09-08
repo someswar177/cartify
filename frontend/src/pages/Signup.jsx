@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast';
 
-const Signup = () => {
+const Signup = ({ isDark }) => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({})
@@ -42,24 +42,33 @@ const Signup = () => {
     }
   };
 
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${
+      isDark ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       <div className="max-w-md w-full space-y-8 animate-fade-in">
         <div className="text-center">
           <div className="w-22 h-22 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-white font-bold text-2xl">Cartify</span>
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">Create your account</h2>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <h2 className={`text-3xl font-extrabold ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>Create your account</h2>
+          <p className={`mt-2 text-sm ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Or{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+            <Link to="/login" className={`font-medium hover:underline ${
+              isDark ? 'text-blue-400' : 'text-blue-600 hover:text-blue-500'
+            }`}>
               sign in to your existing account
             </Link>
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+        <div className={`rounded-xl shadow-lg p-8 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <input
               name="name"
@@ -67,7 +76,13 @@ const Signup = () => {
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.name ? 'border-red-500' : isDark ? 'border-gray-600' : 'border-gray-300'
+              } ${
+                isDark
+                  ? 'bg-gray-700 text-white placeholder-gray-400'
+                  : 'bg-white text-gray-900 placeholder-gray-500'
+              }`}
             />
             <input
               name="email"
@@ -75,7 +90,13 @@ const Signup = () => {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.email ? 'border-red-500' : isDark ? 'border-gray-600' : 'border-gray-300'
+              } ${
+                isDark
+                  ? 'bg-gray-700 text-white placeholder-gray-400'
+                  : 'bg-white text-gray-900 placeholder-gray-500'
+              }`}
             />
             <div className="relative">
               <input
@@ -84,9 +105,21 @@ const Signup = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.password ? 'border-red-500' : isDark ? 'border-gray-600' : 'border-gray-300'
+                } ${
+                  isDark
+                    ? 'bg-gray-700 text-white placeholder-gray-400'
+                    : 'bg-white text-gray-900 placeholder-gray-500'
+                }`}
               />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)} 
+                className={`absolute right-2 top-1/2 -translate-y-1/2 ${
+                  isDark ? 'text-gray-400' : 'text-gray-500'
+                }`}
+              >
                 {showPassword ? 'Hide' : 'Show'}
               </button>
             </div>
@@ -96,9 +129,19 @@ const Signup = () => {
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'}`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.confirmPassword ? 'border-red-500' : isDark ? 'border-gray-600' : 'border-gray-300'
+              } ${
+                isDark
+                  ? 'bg-gray-700 text-white placeholder-gray-400'
+                  : 'bg-white text-gray-900 placeholder-gray-500'
+              }`}
             />
-            <button type="submit" disabled={loading} className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50">
+            <button 
+              type="submit" 
+              disabled={loading} 
+              className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200"
+            >
               {loading ? 'Creating account...' : 'Create account'}
             </button>
           </form>

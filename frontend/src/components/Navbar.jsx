@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
 import ThemeToggle from "./ThemeToggle";
 
-const Navbar = ({ onCartClick }) => {
+const Navbar = ({ isDark, onToggleTheme, onCartClick }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const { user, logout } = useAuth();
@@ -27,18 +27,25 @@ const Navbar = ({ onCartClick }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-700">
+    <nav className={`fixed top-0 left-0 right-0 z-50 shadow-md border-b transition-colors duration-200 ${
+      isDark 
+        ? 'bg-gray-900 border-gray-700' 
+        : 'bg-white border-gray-200'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-2 font-bold text-xl text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+            className={`flex items-center space-x-2 font-bold text-xl transition-colors duration-200 ${
+              isDark 
+                ? 'text-white hover:text-blue-400' 
+                : 'text-gray-900 hover:text-blue-600'
+            }`}
           >
             <div className="w-20 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-md">Cartify</span>
             </div>
-            {/* <span>Cartify</span> */}
           </Link>
 
           {/* Desktop Search */}
@@ -52,11 +59,19 @@ const Navbar = ({ onCartClick }) => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search products..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  isDark
+                    ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400'
+                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'
+                }`}
               />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-200 ${
+                  isDark
+                    ? 'text-gray-400 hover:text-gray-300'
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
               >
                 <svg
                   className="w-5 h-5"
@@ -80,7 +95,11 @@ const Navbar = ({ onCartClick }) => {
             {/* Mobile search toggle */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="md:hidden text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              className={`md:hidden transition-colors duration-200 ${
+                isDark
+                  ? 'text-gray-300 hover:text-white'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
             >
               <svg
                 className="w-6 h-6"
@@ -98,13 +117,17 @@ const Navbar = ({ onCartClick }) => {
             </button>
 
             {/* Theme toggle */}
-            <ThemeToggle />
+            <ThemeToggle isDark={isDark} onToggle={onToggleTheme} />
 
             {/* Cart button */}
             {user && (
               <button
                 onClick={onCartClick}
-                className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                className={`relative p-2 transition-colors duration-200 ${
+                  isDark
+                    ? 'text-gray-300 hover:text-white'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 <svg
                   className="w-6 h-6"
@@ -130,7 +153,9 @@ const Navbar = ({ onCartClick }) => {
             {/* Auth buttons */}
             {user ? (
               <div className="flex items-center space-x-3">
-                <span className="hidden sm:block text-sm text-gray-700 dark:text-gray-300">
+                <span className={`hidden sm:block text-sm ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   Hi, {user.name || user.email}
                 </span>
                 <button
@@ -144,7 +169,11 @@ const Navbar = ({ onCartClick }) => {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 text-sm transition-colors duration-200"
+                  className={`px-3 py-2 text-sm transition-colors duration-200 ${
+                    isDark
+                      ? 'text-gray-300 hover:text-white'
+                      : 'text-gray-700 hover:text-gray-900'
+                  }`}
                 >
                   Login
                 </Link>
@@ -161,14 +190,20 @@ const Navbar = ({ onCartClick }) => {
 
         {/* Mobile search */}
         {isSearchOpen && (
-          <div className="md:hidden py-3 border-t border-gray-200 dark:border-gray-700 animate-slide-in-left">
+          <div className={`md:hidden py-3 border-t animate-slide-in-left ${
+            isDark ? 'border-gray-700' : 'border-gray-200'
+          }`}>
             <form onSubmit={handleSearch}>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search products..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full px-4 py-2 border rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  isDark
+                    ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400'
+                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'
+                }`}
                 autoFocus
               />
             </form>

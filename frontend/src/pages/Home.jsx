@@ -7,7 +7,7 @@ import FilterSidebar from '../components/FilterSidebar'
 import { ProductGridSkeleton } from '../components/Skeleton'
 import { useDebounce } from '../hooks/useDebounce'
 
-const Home = () => {
+const Home = ({ isDark }) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
   const [filters, setFilters] = useState({
@@ -85,17 +85,23 @@ const Home = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDark ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
         <div className="text-center">
           <div className="text-red-500 mb-4">
             <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className={`text-2xl font-bold mb-2 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Something went wrong
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className={`mb-4 ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Failed to load products. Please try again later.
           </p>
           <button
@@ -110,16 +116,22 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className={`min-h-screen ${
+      isDark ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className={`text-3xl font-bold ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
                 {searchTerm ? `Search Results for "${searchTerm}"` : 'All Products'}
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
+              <p className={`mt-1 ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 {isLoading ? 'Loading...' : `${filteredProducts.length} products found`}
               </p>
             </div>
@@ -127,7 +139,11 @@ const Home = () => {
             {/* Mobile filter button */}
             <button
               onClick={() => setIsMobileFilterOpen(true)}
-              className="lg:hidden bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center space-x-2"
+              className={`lg:hidden px-4 py-2 rounded-lg border transition-colors duration-200 flex items-center space-x-2 ${
+                isDark
+                  ? 'bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
@@ -141,6 +157,7 @@ const Home = () => {
           {/* Desktop Sidebar */}
           <div className="hidden lg:block">
             <FilterSidebar
+              isDark={isDark}
               filters={filters}
               onFiltersChange={handleFiltersChange}
             />
@@ -148,6 +165,7 @@ const Home = () => {
 
           {/* Mobile Filter Drawer */}
           <FilterSidebar
+            isDark={isDark}
             isOpen={isMobileFilterOpen}
             onClose={() => setIsMobileFilterOpen(false)}
             filters={filters}
@@ -158,7 +176,7 @@ const Home = () => {
           {/* Products Grid */}
           <div className="flex-1">
             {isLoading ? (
-              <ProductGridSkeleton />
+              <ProductGridSkeleton isDark={isDark} />
             ) : filteredProducts.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
@@ -166,17 +184,19 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m13-8V4a1 1 0 00-1-1H7a1 1 0 00-1 1v1M7 7h10v6H7V7z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
+                <h3 className={`text-xl font-medium mb-2 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   No products found
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
                   Try adjusting your filters or search terms
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
                 {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product.id} product={product} isDark={isDark} />
                 ))}
               </div>
             )}

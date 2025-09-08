@@ -1,25 +1,29 @@
 import { Outlet } from 'react-router-dom'
+import { useState } from 'react'
 import Navbar from './Navbar'
 import CartDrawer from './CartDrawer'
-import { useState } from 'react'
 
-const Layout = () => {
+const Layout = ({ isDark, onToggleTheme }) => {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      {/* Navbar gets the toggle callback */}
-      <Navbar onCartClick={() => setIsCartDrawerOpen(true)} />
+    <>
+      <Navbar 
+        isDark={isDark} 
+        onToggleTheme={onToggleTheme}
+        onCartClick={() => setIsCartDrawerOpen(true)} 
+      />
       
       <main className="pt-16">
         <Outlet />
       </main>
 
       <CartDrawer 
+        isDark={isDark}
         isOpen={isCartDrawerOpen} 
         onClose={() => setIsCartDrawerOpen(false)} 
       />
-    </div>
+    </>
   )
 }
 

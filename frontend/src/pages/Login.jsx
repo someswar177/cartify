@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast';
 
-const Login = () => {
+const Login = ({ isDark }) => {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
 
@@ -28,27 +28,39 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${
+      isDark ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       <div className="max-w-md w-full space-y-8 animate-fade-in">
         <div className="text-center">
           <div className="w-22 h-22 bg-gradient-to-r from-blue-500 to-purple-800 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-white font-bold text-2xl">Cartify</span>
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
+          <h2 className={`text-3xl font-extrabold ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Sign in to your account
           </h2>
-          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <p className={`mt-2 text-sm ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Or{' '}
-            <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+            <Link to="/signup" className={`font-medium hover:underline ${
+              isDark ? 'text-blue-400' : 'text-blue-600 hover:text-blue-500'
+            }`}>
               create a new account
             </Link>
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+        <div className={`rounded-xl shadow-lg p-8 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email address</label>
+              <label className={`block text-sm font-medium ${
+                isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}>Email address</label>
               <input
                 name="email"
                 type="email"
@@ -56,12 +68,18 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  isDark
+                    ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
+                    : 'bg-white text-gray-900 border-gray-300 placeholder-gray-500'
+                }`}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+              <label className={`block text-sm font-medium ${
+                isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}>Password</label>
               <div className="mt-1 relative">
                 <input
                   name="password"
@@ -70,12 +88,20 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="block w-full px-3 py-2 pr-10 border rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`block w-full px-3 py-2 pr-10 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isDark
+                      ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
+                      : 'bg-white text-gray-900 border-gray-300 placeholder-gray-500'
+                  }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className={`absolute inset-y-0 right-0 pr-3 flex items-center transition-colors ${
+                    isDark
+                      ? 'text-gray-400 hover:text-gray-300'
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
                 >
                   {showPassword ? 'Hide' : 'Show'}
                 </button>
@@ -85,7 +111,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200"
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>

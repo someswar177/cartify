@@ -5,11 +5,11 @@ import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
 import { ProductDetailSkeleton } from '../components/Skeleton'
 
-const ProductDetail = () => {
+const ProductDetail = ({ isDark }) => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { addToCart } = useCart()
-  const { user } = useAuth()   // ✅ use user, not isAuthenticated
+  const { user } = useAuth()
 
   const { data: product, isLoading, error } = useQuery({
     queryKey: ['product', id],
@@ -18,7 +18,7 @@ const ProductDetail = () => {
   })
 
   const handleAddToCart = async () => {
-    if (!user) {   // ✅ auth check
+    if (!user) {
       navigate('/login')
       return
     }
@@ -63,22 +63,28 @@ const ProductDetail = () => {
   }
 
   if (isLoading) {
-    return <ProductDetailSkeleton />
+    return <ProductDetailSkeleton isDark={isDark} />
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDark ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
         <div className="text-center">
           <div className="text-red-500 mb-4">
             <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className={`text-2xl font-bold mb-2 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
             Product not found
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className={`mb-4 ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             The product you're looking for doesn't exist.
           </p>
           <button
@@ -93,13 +99,19 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className={`min-h-screen py-8 ${
+      isDark ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            className={`flex items-center transition-colors duration-200 ${
+              isDark
+                ? 'text-gray-400 hover:text-white'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -108,7 +120,9 @@ const ProductDetail = () => {
           </button>
         </nav>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-fade-in">
+        <div className={`rounded-xl shadow-lg overflow-hidden animate-fade-in ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
             {/* Product Image */}
             <div className="aspect-square bg-white rounded-lg p-8 flex items-center justify-center">
@@ -123,10 +137,14 @@ const ProductDetail = () => {
             {/* Product Info */}
             <div className="space-y-6">
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium mb-2">
+                <p className={`text-sm uppercase tracking-wide font-medium mb-2 ${
+                  isDark ? 'text-gray-400' : 'text-gray-500'
+                }`}>
                   {product.category}
                 </p>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+                <h1 className={`text-3xl font-bold leading-tight ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   {product.title}
                 </h1>
               </div>
@@ -136,22 +154,28 @@ const ProductDetail = () => {
                 <div className="flex items-center space-x-1">
                   {renderStars(product.rating?.rate || 0)}
                 </div>
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>
                   {product.rating?.rate.toFixed(1)} ({product.rating?.count} reviews)
                 </span>
               </div>
 
               {/* Price */}
-              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+              <div className={`text-4xl font-bold ${
+                isDark ? 'text-blue-400' : 'text-blue-600'
+              }`}>
                 ${product.price.toFixed(2)}
               </div>
 
               {/* Description */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                <h3 className={`text-lg font-semibold mb-3 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
                   Description
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <p className={`leading-relaxed ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   {product.description}
                 </p>
               </div>
@@ -167,26 +191,36 @@ const ProductDetail = () => {
               </div>
 
               {/* Product Features */}
-              <div className="grid grid-cols-2 gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+              <div className={`grid grid-cols-2 gap-4 pt-6 border-t ${
+                isDark ? 'border-gray-700' : 'border-gray-200'
+              }`}>
+                <div className={`flex items-center space-x-3 text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Free Shipping</span>
                 </div>
-                <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+                <div className={`flex items-center space-x-3 text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Easy Returns</span>
                 </div>
-                <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+                <div className={`flex items-center space-x-3 text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Secure Payment</span>
                 </div>
-                <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+                <div className={`flex items-center space-x-3 text-sm ${
+                  isDark ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>

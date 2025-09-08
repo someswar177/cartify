@@ -1,38 +1,14 @@
-import { useState, useEffect } from 'react'
-
-const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(false)
-
-  useEffect(() => {
-    const theme = localStorage.getItem('theme')
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-    if (theme === 'dark' || (!theme && systemDark)) {
-      setIsDark(true)
-      document.documentElement.classList.add('dark')
-    } else {
-      setIsDark(false)
-      document.documentElement.classList.remove('dark')
-    }
-  }, [])
-
-  const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-      setIsDark(false)
-    } else {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-      setIsDark(true)
-    }
-  }
-
+const ThemeToggle = ({ isDark, onToggle }) => {
   return (
     <button
-      onClick={toggleTheme}
-      className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 hover:scale-110"
+      onClick={onToggle}
+      className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+        isDark 
+          ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
+          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+      }`}
       aria-label="Toggle theme"
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {isDark ? (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
