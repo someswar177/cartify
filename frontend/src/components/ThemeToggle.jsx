@@ -4,27 +4,55 @@ const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme')
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    // Initialize theme on component mount
+    const initializeTheme = () => {
+      const savedTheme = localStorage.getItem('theme')
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      
+      const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemDark)
+      
+      setIsDark(shouldBeDark)
+      
+      if (shouldBeDark) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    }
 
-    if (theme === 'dark' || (!theme && systemDark)) {
-      setIsDark(true)
-      document.documentElement.classList.add('dark')
-    } else {
-      setIsDark(false)
-      document.documentElement.classList.remove('dark')
+    initializeTheme()
+
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleSystemThemeChange = (e) => {
+      const savedTheme = localStorage.getItem('theme')
+      if (!savedTheme) {
+        setIsDark(e.matches)
+        if (e.matches) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleSystemThemeChange)
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleSystemThemeChange)
     }
   }, [])
 
   const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-      setIsDark(false)
-    } else {
+    const newIsDark = !isDark
+    setIsDark(newIsDark)
+    
+    if (newIsDark) {
       document.documentElement.classList.add('dark')
       localStorage.setItem('theme', 'dark')
-      setIsDark(true)
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
     }
   }
 
