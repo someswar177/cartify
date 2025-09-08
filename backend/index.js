@@ -9,7 +9,8 @@ app.use(
   cors({
     origin: [
       /^http:\/\/localhost:\d+$/,
-      "http://localhost:5173"
+      "http://localhost:5173",
+      "https://cartify-project-hazel.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
