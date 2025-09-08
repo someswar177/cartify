@@ -33,7 +33,6 @@ app.get("/", (req, res) => res.json({ message: "Hello from ecommerce backend" })
 
 connectDB()
   .then(async () => {
-    // optional: seed on server start (comment if you prefer manual)
     // const seed = require('./utils/seedFakeStore');
     // await seed(); // if implemented to export function
     app.listen(PORT, () => {

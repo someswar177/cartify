@@ -109,7 +109,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                             <div className="flex-1 overflow-y-auto p-4 space-y-4">
                                 {items.map((item) => (
                                     <div
-                                        key={item.id}
+                                        key={`${item.id}-${item.title}`}
                                         className="flex items-center space-x-3 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg animate-cart-item-add"
                                     >
                                         <img

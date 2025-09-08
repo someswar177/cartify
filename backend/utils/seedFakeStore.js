@@ -1,4 +1,3 @@
-// utils/seedFakeStore.js
 require('dotenv').config();
 const axios = require('axios');
 const connectDB = require('../config/database');

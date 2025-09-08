@@ -1,4 +1,3 @@
-// controllers/authController.js
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { getToken } = require('../middleware/token');
@@ -14,7 +13,6 @@ const signup = async (req, res) => {
 
     const user = await User.create({ name, email, passwordHash });
     const token = getToken(user);
-    // return token and user (frontend stores token - current middleware expects Bearer token)
     res.status(201).json({ user: { _id: user._id, email: user.email, name: user.name }, token });
   } catch (err) {
     console.error(err);

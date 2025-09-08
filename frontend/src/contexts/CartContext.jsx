@@ -80,9 +80,9 @@ export const CartProvider = ({ children }) => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
       const response = await api.get("/cart");
-      const normalized = (response.data.items || []).map((item) => ({
+      const normalized = (response.data.items || []).map((item, index) => ({
         ...item,
-        id: item.productId || item.id,
+        id: item.productId,
       }));
       dispatch({ type: "SET_CART_ITEMS", payload: normalized });
     } catch (error) {
@@ -104,7 +104,6 @@ export const CartProvider = ({ children }) => {
         image: product.image,
         quantity: 1,
       };
-
       dispatch({ type: "ADD_ITEM", payload });
       await api.post("/cart", payload);
 
@@ -119,7 +118,7 @@ export const CartProvider = ({ children }) => {
   const updateQuantity = async (productId, quantity) => {
     try {
       dispatch({ type: "UPDATE_QUANTITY", payload: { id: productId, quantity } });
-      await api.put("/cart", { productId, quantity });
+      await api.put("/cart", { id: productId, quantity });
     } catch (error) {
       console.error("Failed to update quantity:", error);
       toast.error("Failed to update quantity");
@@ -158,7 +157,7 @@ export const CartProvider = ({ children }) => {
   const clearCart = async () => {
     try {
       dispatch({ type: "CLEAR_CART" });
-      await api.delete("/cart/clear");
+      await api.delete("/cart");
       toast.success("Cart cleared");
     } catch (error) {
       console.error("Failed to clear cart:", error);
@@ -168,7 +167,10 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartTotal = () =>
-    state.items.reduce((total, item) => total + (item.price || 0) * (item.quantity || 0), 0);
+    state.items.reduce(
+      (total, item) => total + (item.price || 0) * (item.quantity || 0),
+      0
+    );
 
   const getCartItemsCount = () =>
     state.items.reduce((count, item) => count + item.quantity, 0);
@@ -185,7 +187,9 @@ export const CartProvider = ({ children }) => {
     getCartItemsCount,
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={value}>{children}</CartContext.Provider>
+  );
 };
 
 export const useCart = () => {

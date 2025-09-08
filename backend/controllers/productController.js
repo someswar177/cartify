@@ -1,11 +1,9 @@
-// controllers/productController.js
 const Product = require('../models/Product');
 const axios = require('axios');
 require('dotenv').config();
 
 const FAKESTORE = process.env.FAKESTORE_API || 'https://fakestoreapi.com';
 
-// GET /api/product - supports queries category, minPrice, maxPrice, q, sort, limit, skip
 const getProducts = async (req, res) => {
   try {
     const { category, minPrice, maxPrice, q, sort, limit = 20, skip = 0 } = req.query;
@@ -44,11 +42,9 @@ const getProductById = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    // if categories saved in DB you can fetch distinct; else call FakeStoreAPI
     const categories = await Product.distinct('category');
     if (categories && categories.length) return res.json(categories);
 
-    // fallback to FakeStoreAPI
     const { data } = await axios.get(`${FAKESTORE}/products/categories`);
     res.json(data);
   } catch (err) {
@@ -56,10 +52,8 @@ const getCategories = async (req, res) => {
   }
 };
 
-// Optional: endpoint to trigger a seed (calls utils/seedFakeStore)
 const seedProducts = async (req, res) => {
   try {
-    // naive: call fake store and insert if not exists
     const { data } = await axios.get(`${FAKESTORE}/products`);
     for (const p of data) {
       const exists = await Product.findOne({ productId: p.id });
