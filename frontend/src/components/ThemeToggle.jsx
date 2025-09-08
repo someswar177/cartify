@@ -6,7 +6,7 @@ const ThemeToggle = () => {
   useEffect(() => {
     const theme = localStorage.getItem('theme')
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    
+
     if (theme === 'dark' || (!theme && systemDark)) {
       setIsDark(true)
       document.documentElement.classList.add('dark')

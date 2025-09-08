@@ -2,7 +2,15 @@ import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 
 const CartPage = () => {
-  const { items, updateQuantity, removeFromCart, getCartTotal, clearCart, loading } = useCart()
+  const { 
+    items, 
+    loading, 
+    incrementItem, 
+    decrementItem, 
+    removeFromCart, 
+    getCartTotal, 
+    clearCart 
+  } = useCart()
 
   if (loading) {
     return (
@@ -113,7 +121,7 @@ const CartPage = () => {
                         {/* Quantity Controls */}
                         <div className="flex items-center space-x-3">
                           <button
-                            onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
+                            onClick={() => decrementItem(item.id)}
                             className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,7 +134,7 @@ const CartPage = () => {
                           </span>
                           
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => incrementItem(item.id)}
                             className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

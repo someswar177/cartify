@@ -1,19 +1,35 @@
 import { Link } from 'react-router-dom'
-import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../contexts/AuthContext'
+import { useCart } from '../contexts/CartContext'
 import toast from 'react-hot-toast'
 
 const ProductCard = ({ product }) => {
+  const { user } = useAuth()
   const { addToCart } = useCart()
-  const { isAuthenticated } = useAuth()
 
-  const handleAddToCart = (e) => {
-    e.preventDefault()
-    if (!isAuthenticated) {
+  // const handleAddToCart = (e) => {
+  //   e.preventDefault()
+  //   if (!isAuthenticated) {
+  //     toast.error('Please login to add items to cart')
+  //     return
+  //   }
+  //   // Cart feature not included in this project
+  //   toast('Cart feature is not available in this project')
+  // }
+
+  const handleAddToCart = async (e) => {
+    if (!user) {   // ✅ auth check
       toast.error('Please login to add items to cart')
+      navigate('/login')
       return
     }
-    addToCart(product)
+    try {
+      await addToCart(product)
+      toast.success('Item added to cart')
+    } catch (err) {
+      console.error(err)
+      toast.error('Failed to add item to cart')
+    }
   }
 
   const renderStars = (rating) => {
@@ -62,12 +78,12 @@ const ProductCard = ({ product }) => {
           loading="lazy"
         />
       </div>
-      
+
       <div className="p-4">
         <h3 className="text-lg font-medium text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
           {product.title}
         </h3>
-        
+
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 capitalize">
           {product.category}
         </p>
@@ -83,10 +99,13 @@ const ProductCard = ({ product }) => {
           <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
             ${product.price.toFixed(2)}
           </span>
-          
+
           <button
-            onClick={handleAddToCart}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+            onClick={(e) => {
+              e.preventDefault()
+              handleAddToCart()
+            }}
+            className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95"
           >
             Add to Cart
           </button>

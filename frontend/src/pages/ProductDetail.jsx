@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { addToCart } = useCart()
-  const { isAuthenticated } = useAuth()
+  const { user } = useAuth()   // ✅ use user, not isAuthenticated
 
   const { data: product, isLoading, error } = useQuery({
     queryKey: ['product', id],
@@ -18,13 +18,19 @@ const ProductDetail = () => {
     enabled: !!id
   })
 
-  const handleAddToCart = () => {
-    if (!isAuthenticated) {
+  const handleAddToCart = async () => {
+    if (!user) {   // ✅ auth check
       toast.error('Please login to add items to cart')
       navigate('/login')
       return
     }
-    addToCart(product)
+    try {
+      await addToCart(product)
+      toast.success('Item added to cart')
+    } catch (err) {
+      console.error(err)
+      toast.error('Failed to add item to cart')
+    }
   }
 
   const renderStars = (rating) => {

@@ -1,6 +1,4 @@
-// controllers/cartController.js
 const Cart = require('../models/Cart');
-const Product = require('../models/Product');
 
 // GET /api/cart
 const getCart = async (req, res) => {
@@ -12,35 +10,27 @@ const getCart = async (req, res) => {
     }
     res.json(cart);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Failed to fetch cart' });
   }
 };
 
-// POST /api/cart  { productId, quantity }
+// POST /api/cart  { id, title, price, image, quantity }
 const addToCart = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { productId, quantity = 1 } = req.body;
-    const product = await Product.findOne({ productId: Number(productId) });
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    const { id, title, price, image, quantity = 1 } = req.body;
 
     let cart = await Cart.findOne({ userId });
-    if (!cart) {
-      cart = await Cart.create({ userId, items: [] });
+    if (!cart) cart = await Cart.create({ userId, items: [] });
+
+    const idx = cart.items.findIndex(item => item.id === id);
+    if (idx > -1) {
+      cart.items[idx].quantity += quantity;
+    } else {
+      cart.items.push({ id, title, price, image, quantity });
     }
 
-    const idx = cart.items.findIndex(i => i.productId === product.productId);
-    if (idx > -1) {
-      cart.items[idx].quantity += Number(quantity);
-    } else {
-      cart.items.push({
-        productId: product.productId,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        quantity: Number(quantity)
-      });
-    }
     await cart.save();
     res.json(cart);
   } catch (err) {
@@ -49,15 +39,15 @@ const addToCart = async (req, res) => {
   }
 };
 
-// PUT /api/cart  { productId, quantity }  (set quantity)
+// PUT /api/cart  { id, quantity }  (set quantity)
 const updateCart = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { productId, quantity } = req.body;
+    const { id, quantity } = req.body;
     let cart = await Cart.findOne({ userId });
     if (!cart) return res.status(404).json({ message: 'Cart not found' });
 
-    const idx = cart.items.findIndex(i => i.productId === Number(productId));
+    const idx = cart.items.findIndex(i => i.id === id);
     if (idx === -1) return res.status(404).json({ message: 'Item not in cart' });
 
     cart.items[idx].quantity = Number(quantity);
@@ -66,22 +56,24 @@ const updateCart = async (req, res) => {
     await cart.save();
     res.json(cart);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Failed to update cart' });
   }
 };
 
-// DELETE /api/cart/:productId
+// DELETE /api/cart/:id
 const removeFromCart = async (req, res) => {
   try {
     const userId = req.user._id;
-    const productId = Number(req.params.productId);
+    const id = req.params.id;
     let cart = await Cart.findOne({ userId });
     if (!cart) return res.status(404).json({ message: 'Cart not found' });
 
-    cart.items = cart.items.filter(i => i.productId !== productId);
+    cart.items = cart.items.filter(i => i.id !== id);
     await cart.save();
     res.json(cart);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Failed to remove item' });
   }
 };
@@ -93,6 +85,7 @@ const emptyCart = async (req, res) => {
     await Cart.findOneAndUpdate({ userId }, { items: [] }, { upsert: true });
     res.json({ message: 'Cart emptied' });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Failed to empty cart' });
   }
 };

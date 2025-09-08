@@ -1,10 +1,10 @@
 import React from 'react'
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import App from './App'
+import { AuthProvider } from './contexts/AuthContext'
+import { CartProvider } from './contexts/CartContext'   // import CartProvider
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Toaster } from 'react-hot-toast'
-import App from './App.jsx'
 import './index.css'
 
 // Create a client
@@ -20,17 +20,14 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <BrowserRouter> */}
+    <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <App />
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            className: 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white',
-          }}
-        />
+        <AuthProvider>
+          <CartProvider>   {/* ✅ wrap your app with CartProvider */}
+            <App />
+          </CartProvider>
+        </AuthProvider>
       </QueryClientProvider>
-    {/* </BrowserRouter> */}
-  </React.StrictMode>,
+    </BrowserRouter>
+  </React.StrictMode>
 )
